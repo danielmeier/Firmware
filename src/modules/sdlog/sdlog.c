@@ -335,7 +335,7 @@ int sdlog_thread_main(int argc, char *argv[])
 	}
 
 	/* log every n'th value (skip three per default) */
-	int skip_value = 3;
+	int skip_value = 0;
 
 	/* work around some stupidity in task_create's argv handling */
 	argc -= 2;
@@ -654,7 +654,7 @@ int sdlog_thread_main(int argc, char *argv[])
 
 				/* always copy sensors raw data into local buffer, since poll flags won't clear else */
 				orb_copy(ORB_ID(sensor_combined), subs.sensor_sub, &buf.raw);
-				orb_copy(ORB_ID_VEHICLE_ATTITUDE_CONTROLS, subs.controls_0_sub, &buf.act_controls);
+				/*orb_copy(ORB_ID_VEHICLE_ATTITUDE_CONTROLS, subs.controls_0_sub, &buf.act_controls);
 				orb_copy(ORB_ID_VEHICLE_ATTITUDE_CONTROLS_EFFECTIVE, subs.controls_effective_0_sub, &buf.act_controls_effective);
 				orb_copy(ORB_ID(actuator_outputs_0), subs.act_0_sub, &buf.act_outputs);
 				orb_copy(ORB_ID(vehicle_attitude_setpoint), subs.spa_sub, &buf.att_sp);
@@ -666,12 +666,13 @@ int sdlog_thread_main(int argc, char *argv[])
 				orb_copy(ORB_ID(optical_flow), subs.flow_sub, &buf.flow);
 				orb_copy(ORB_ID(differential_pressure), subs.diff_pres_sub, &buf.diff_pres);
 				orb_copy(ORB_ID(airspeed), subs.airspeed_sub, &buf.airspeed);
-				orb_copy(ORB_ID(battery_status), subs.batt_sub, &buf.batt);
+				orb_copy(ORB_ID(battery_status), subs.batt_sub, &buf.batt);*/
 
 				/* if skipping is on or logging is disabled, ignore */
 				if (skip_count < skip_value || !logging_enabled) {
 					skip_count++;
 					/* do not log data */
+					printf("Skipped data...\n");
 					continue;
 				} else {
 					/* log data, reset */
@@ -680,8 +681,8 @@ int sdlog_thread_main(int argc, char *argv[])
 
 				struct sdlog_sysvector sysvect = {
 					.timestamp = buf.raw.timestamp,
-					.gyro = {buf.raw.gyro_rad_s[0], buf.raw.gyro_rad_s[1], buf.raw.gyro_rad_s[2]},
-					.accel = {buf.raw.accelerometer_m_s2[0], buf.raw.accelerometer_m_s2[1], buf.raw.accelerometer_m_s2[2]},
+					/*.gyro = {buf.raw.gyro_rad_s[0], buf.raw.gyro_rad_s[1], buf.raw.gyro_rad_s[2]},*/
+					.accel = {buf.raw.accelerometer_m_s2[0], buf.raw.accelerometer_m_s2[1], buf.raw.accelerometer_m_s2[2]}/*,
 					.mag = {buf.raw.magnetometer_ga[0], buf.raw.magnetometer_ga[1], buf.raw.magnetometer_ga[2]},
 					.baro = buf.raw.baro_pres_mbar,
 					.baro_alt = buf.raw.baro_alt_meter,
@@ -704,7 +705,7 @@ int sdlog_thread_main(int argc, char *argv[])
 					.flow = {buf.flow.flow_raw_x, buf.flow.flow_raw_y, buf.flow.flow_comp_x_m, buf.flow.flow_comp_y_m, buf.flow.ground_distance_m, buf.flow.quality},
 					.diff_pressure = buf.diff_pres.differential_pressure_pa,
 					.ind_airspeed = buf.airspeed.indicated_airspeed_m_s,
-					.true_airspeed = buf.airspeed.true_airspeed_m_s
+					.true_airspeed = buf.airspeed.true_airspeed_m_s*/
 				};
 
 				/* put into buffer for later IO */

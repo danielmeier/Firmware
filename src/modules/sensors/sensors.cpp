@@ -1473,7 +1473,7 @@ Sensors::task_main()
 	orb_set_interval(_vcontrol_mode_sub, 200);
 
 	/* rate limit gyro to 250 Hz (the gyro signal is lowpassed accordingly earlier) */
-	orb_set_interval(_gyro_sub, 4);
+	orb_set_interval(_gyro_sub, 2);
 
 	/*
 	 * do advertisements
@@ -1546,8 +1546,19 @@ Sensors::task_main()
 		diff_pres_poll(raw);
 
 		/* Inform other processes that new data is available to copy */
-		if (_publishing)
+		if (_publishing){
 			orb_publish(ORB_ID(sensor_combined), _sensor_pub, &raw);
+			
+			
+			
+			static int countbroad = 0;
+			countbroad ++;
+			//if(countbroad%500==0)
+				//printf("Sensors 500 Broadcasts\n");
+			
+			
+			
+		}
 
 		/* Look for new r/c input data */
 		rc_poll();
