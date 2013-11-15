@@ -1012,22 +1012,22 @@ int sdlog2_thread_main(int argc, char *argv[])
 				bool write_IMU = false;
 				bool write_SENS = false;
 
-				if (buf.sensor.gyro_counter != gyro_counter) {
+                if (buf.sensor.gyro_counter != gyro_counter) {
 					gyro_counter = buf.sensor.gyro_counter;
 					write_IMU = true;
-				}
+                }
 
 				if (buf.sensor.accelerometer_counter != accelerometer_counter) {
 					accelerometer_counter = buf.sensor.accelerometer_counter;
 					write_IMU = true;
 				}
 
-				if (buf.sensor.magnetometer_counter != magnetometer_counter) {
+                if (buf.sensor.magnetometer_counter != magnetometer_counter) {
 					magnetometer_counter = buf.sensor.magnetometer_counter;
 					write_IMU = true;
-				}
+                }
 
-				if (buf.sensor.baro_counter != baro_counter) {
+                /*if (buf.sensor.baro_counter != baro_counter) {
 					baro_counter = buf.sensor.baro_counter;
 					write_SENS = true;
 				}
@@ -1035,30 +1035,30 @@ int sdlog2_thread_main(int argc, char *argv[])
 				if (buf.sensor.differential_pressure_counter != differential_pressure_counter) {
 					differential_pressure_counter = buf.sensor.differential_pressure_counter;
 					write_SENS = true;
-				}
+                }*/
 
 				if (write_IMU) {
 					log_msg.msg_type = LOG_IMU_MSG;
-					log_msg.body.log_IMU.gyro_x = buf.sensor.gyro_rad_s[0];
-					log_msg.body.log_IMU.gyro_y = buf.sensor.gyro_rad_s[1];
-					log_msg.body.log_IMU.gyro_z = buf.sensor.gyro_rad_s[2];
+                    //log_msg.body.log_IMU.gyro_x = buf.sensor.gyro_rad_s[0];
+                    //log_msg.body.log_IMU.gyro_y = buf.sensor.gyro_rad_s[1];
+                    //log_msg.body.log_IMU.gyro_z = buf.sensor.gyro_rad_s[2];
 					log_msg.body.log_IMU.acc_x = buf.sensor.accelerometer_m_s2[0];
 					log_msg.body.log_IMU.acc_y = buf.sensor.accelerometer_m_s2[1];
 					log_msg.body.log_IMU.acc_z = buf.sensor.accelerometer_m_s2[2];
-					log_msg.body.log_IMU.mag_x = buf.sensor.magnetometer_ga[0];
-					log_msg.body.log_IMU.mag_y = buf.sensor.magnetometer_ga[1];
-					log_msg.body.log_IMU.mag_z = buf.sensor.magnetometer_ga[2];
+                    //log_msg.body.log_IMU.mag_x = buf.sensor.magnetometer_ga[0];
+                    //log_msg.body.log_IMU.mag_y = buf.sensor.magnetometer_ga[1];
+                    //log_msg.body.log_IMU.mag_z = buf.sensor.magnetometer_ga[2];
 					LOGBUFFER_WRITE_AND_COUNT(IMU);
 				}
 
-				if (write_SENS) {
+                /*if (write_SENS) {
 					log_msg.msg_type = LOG_SENS_MSG;
 					log_msg.body.log_SENS.baro_pres = buf.sensor.baro_pres_mbar;
 					log_msg.body.log_SENS.baro_alt = buf.sensor.baro_alt_meter;
 					log_msg.body.log_SENS.baro_temp = buf.sensor.baro_temp_celcius;
 					log_msg.body.log_SENS.diff_pres = buf.sensor.differential_pressure_pa;
 					LOGBUFFER_WRITE_AND_COUNT(SENS);
-				}
+                }*/
 			}
 
 			/* --- ATTITUDE --- */
