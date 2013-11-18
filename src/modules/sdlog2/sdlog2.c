@@ -968,10 +968,10 @@ int sdlog2_thread_main(int argc, char *argv[])
 
 			pthread_mutex_lock(&logbuffer_mutex);
 
-			/* write time stamp message */
-			log_msg.msg_type = LOG_TIME_MSG;
-			log_msg.body.log_TIME.t = hrt_absolute_time();
-			LOGBUFFER_WRITE_AND_COUNT(TIME);
+//			/* write time stamp message */
+//			log_msg.msg_type = LOG_TIME_MSG;
+//			log_msg.body.log_TIME.t = hrt_absolute_time();
+//			LOGBUFFER_WRITE_AND_COUNT(TIME);
 
 			/* --- VEHICLE STATUS --- */
 			if (fds[ifds++].revents & POLLIN) {
@@ -1049,6 +1049,14 @@ int sdlog2_thread_main(int argc, char *argv[])
                     //log_msg.body.log_IMU.mag_y = buf.sensor.magnetometer_ga[1];
                     //log_msg.body.log_IMU.mag_z = buf.sensor.magnetometer_ga[2];
 					LOGBUFFER_WRITE_AND_COUNT(IMU);
+
+
+                    /* write time stamp message */
+                    log_msg.msg_type = LOG_TIME_MSG;
+                    log_msg.body.log_TIME.t = buf.sensor.timestamp;
+                    LOGBUFFER_WRITE_AND_COUNT(TIME);
+
+
 				}
 
                 /*if (write_SENS) {
