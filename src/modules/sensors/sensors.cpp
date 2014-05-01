@@ -1548,6 +1548,12 @@ Sensors::task_main()
 		/* Inform other processes that new data is available to copy */
 		if (_publishing){
 			orb_publish(ORB_ID(sensor_combined), _sensor_pub, &raw);
+
+			printf("%i,", (int)raw.timestamp);
+			printf("%i,%i,%i,", raw.accelerometer_raw[0],raw.accelerometer_raw[1],raw.accelerometer_raw[2]);
+			printf("%i,%i,%i", raw.gyro_raw[0],raw.gyro_raw[1],raw.gyro_raw[2]);
+			printf("\n");
+
 			
 			
 			
